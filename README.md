@@ -1,24 +1,24 @@
-# adaptive-micro-slicing-bot
+# Adaptive Micro-Slicing Trading Bot (Prototype)
 
+### What this does
+- Polls market data (via ccxt), computes short-term realized volatility and burst probability.
+- When a small breakout signal appears, executes **adaptive micro-sliced** orders to reduce slippage.
+- Paper mode supported (default via `.env`).
 
-Adaptive Micro-Slicing Bot is a lightweight, exchange-agnostic Python prototype that reduces slippage during sudden volatility by combining a **Volatility Burst Detector** with **adaptive micro-slicing (iceberg-style)** order execution. Built with `ccxt` for easy exchange integration, the bot supports **paper mode**, configurable risk limits, and simple ML-lite prediction for short-term burst probability.
+### Files
+- `bot.py` — main
+- `market.py` — ccxt wrapper
+- `predictor.py` — burst detector
+- `executor.py` — execution / slicing logic
+- `utils.py`, `config.py`
+- `.env.example` — rename to `.env` and fill keys
 
-**Key features**
-- Real-time OHLCV polling and optional orderbook snapshots  
-- Volatility Burst Detector (heuristic + ML-lite)  
-- Adaptive micro-slicing execution to minimise slippage  
-- Paper mode for safe testing (no live orders)  
-- Easy to extend for IBKR / MT5 / custom brokers
+### Run (test)
+1. `python -m venv venv && source venv/bin/activate`
+2. `pip install -r requirements.txt`
+3. copy `.env.example` -> `.env` (keep PAPER_MODE=true for testing)
+4. `python bot.py`
 
-**Tech stack:** Python 3.9+, ccxt, pandas, numpy, scikit-learn
-
----
-
-## Quickstart
-1. Clone the repo  
-   `git clone https://github.com/<your-username>/adaptive-micro-slicing-bot.git`  
-2. Create venv & install deps  
-   ```bash
-   python -m venv venv
-   source venv/bin/activate   # or venv\Scripts\activate on Windows
-   pip install -r requirements.txt
+### Notes
+- This is a prototype **educational** bot. Test extensively in paper mode before any live usage.
+- To connect to other brokers (IBKR, MT5), implement `market.py` methods mapping to their APIs.
